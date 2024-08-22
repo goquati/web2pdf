@@ -1,0 +1,227 @@
+openapi: 3.1.0
+info:
+  title: web2pdf
+  version: 1.0.0
+
+paths:
+  /web2pdf:
+    post:
+      tags:
+        - web2pdf
+      operationId: postPdf
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Web2PdfRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/PDF'
+        '400':
+          $ref: '#/components/responses/ErrorResponse'
+    get:
+      tags:
+        - web2pdf
+      operationId: getPdf
+      parameters:
+        - in: query
+          name: url
+          required: true
+          schema:
+            type: string
+          example: 'http://example.com'
+        - in: query
+          name: header
+          required: false
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+          style: deepObject
+          explode: true
+          example:
+            Authorization: my-token
+        - in: query
+          name: cookie
+          required: false
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+          style: deepObject
+          explode: true
+          example:
+            my-cookie: my-cookie-value
+        - in: query
+          name: options
+          required: false
+          schema:
+            $ref: '#/components/schemas/PdfPrintOptions'
+          style: form
+          explode: true
+      responses:
+        '200':
+          $ref: '#/components/responses/PDF'
+        '400':
+          $ref: '#/components/responses/ErrorResponse'
+components:
+  responses:
+    PDF:
+      description: "PDF"
+      content:
+        application/pdf:
+          schema:
+            type: string
+            format: binary
+    ErrorResponse:
+      description: "error"
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  schemas:
+    Web2PdfRequest:
+      type: object
+      required:
+        - url
+      properties:
+        url:
+          type: string
+          example: 'http://example.com'
+        headers:
+          type: object
+          additionalProperties:
+            type: string
+          example:
+            Authorization: my-token
+        cookies:
+          type: object
+          additionalProperties:
+            type: string
+          example:
+            my-cookie: my-cookie-value
+        options:
+          $ref: '#/components/schemas/PdfPrintOptions'
+    PdfPrintOptions:
+      type: object
+      properties:
+        landscape:
+          description: |
+            Paper orientation. Defaults to false.
+          type: boolean
+          example: false
+        displayHeaderFooter:
+          description: |
+            Display header and footer. Defaults to false.
+          type: boolean
+          example: false
+        printBackground:
+          description: |
+            Print background graphics. Defaults to false.
+          type: boolean
+          example: false
+        scale:
+          description: |
+            Scale of the webpage rendering. Defaults to 1.
+          type: number
+          format: double
+          example: 1
+        paperWidth:
+          description: |
+            Paper width in inches. Defaults to 8.5 inches.
+          type: number
+          format: double
+          example: 8.5
+        paperHeight:
+          description: |
+            Paper height in inches. Defaults to 11 inches.
+          type: number
+          format: double
+          example: 11
+        marginTop:
+          description: |
+            Top margin in inches. Defaults to 1cm (~0.4 inches).
+          type: number
+          format: double
+          example: 0.4
+        marginBottom:
+          description: |
+            Bottom margin in inches. Defaults to 1cm (~0.4 inches).
+          type: number
+          format: double
+          example: 0.4
+        marginLeft:
+          description: |
+            Left margin in inches. Defaults to 1cm (~0.4 inches).
+          type: number
+          format: double
+          example: 0.4
+        marginRight:
+          description: |
+            Right margin in inches. Defaults to 1cm (~0.4 inches).
+          type: number
+          format: double
+          example: 0.4
+        pageRanges:
+          description: |
+            Paper ranges to print, one based, e.g., '1-5, 8, 11-13'. Pages are
+            printed in the document order, not in the order specified, and no
+            more than once.
+            Defaults to empty string, which implies the entire document is printed.
+            The page numbers are quietly capped to actual page count of the
+            document, and ranges beyond the end of the document are ignored.
+            If this results in no pages to print, an error is reported.
+            It is an error to specify a range with start greater than end.
+          type: string
+          nullable: true
+          example: null
+        headerTemplate:
+          description: |
+            HTML template for the print header. Should be valid HTML markup with following
+            classes used to inject printing values into them:
+            - `date`: formatted print date
+            - `title`: document title
+            - `url`: document location
+            - `pageNumber`: current page number
+            - `totalPages`: total pages in the document
+            
+            For example, `<span class=title></span>` would generate span containing the title.
+          type: string
+          nullable: true
+          example: null
+        footerTemplate:
+          description: |
+            HTML template for the print footer. Should use the same format as the `headerTemplate`.
+          type: string
+          nullable: true
+          example: null
+        preferCSSPageSize:
+          description: |
+            Whether or not to prefer page size as defined by css. Defaults to false,
+            in which case the content will be scaled to fit the paper size.
+          type: boolean
+          example: false
+        generateTaggedPDF:
+          description: |
+            Whether or not to generate tagged (accessible) PDF. Defaults to embedder choice.
+          type: boolean
+          example: false
+        generateDocumentOutline:
+          description: |
+            Whether or not to embed the document outline into the PDF.
+          type: boolean
+          example: false
+    ErrorResponse:
+      type: object
+      required:
+        - status
+        - error
+        - message
+      properties:
+        status:
+          type: integer
+        error:
+          type: string
+        message:
+          type: string

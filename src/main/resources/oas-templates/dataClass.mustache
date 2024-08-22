@@ -1,0 +1,40 @@
+import kotlinx.serialization.Serializable {{! kotlinx-fix }}
+import kotlinx.serialization.SerialName {{! kotlinx-fix }}
+
+/**
+ * {{{description}}}
+{{#vars}}
+ * @param {{name}} {{{description}}}
+{{/vars}}
+ */{{#discriminator}}
+{{>typeInfoAnnotation}}{{/discriminator}}
+{{#additionalModelTypeAnnotations}}
+    {{{.}}}
+{{/additionalModelTypeAnnotations}}
+@Serializable {{! kotlinx-fix }}
+{{#discriminator}}interface {{classname}}{{/discriminator}}{{^discriminator}}{{#hasVars}}data {{/hasVars}}class {{classname}}(
+{{#requiredVars}}
+{{>dataClassReqVar}}{{^-last}},
+{{/-last}}{{/requiredVars}}{{#hasRequired}}{{#hasOptional}},
+{{/hasOptional}}{{/hasRequired}}{{#optionalVars}}{{>dataClassOptVar}}{{^-last}},
+{{/-last}}{{/optionalVars}}
+) {{/discriminator}}{{#parent}}: {{{.}}}{{/parent}}{
+{{#discriminator}}
+    {{#requiredVars}}
+        {{>interfaceReqVar}}
+    {{/requiredVars}}
+    {{#optionalVars}}
+        {{>interfaceOptVar}}
+    {{/optionalVars}}
+{{/discriminator}}
+{{#hasEnums}}{{#vars}}{{#isEnum}}
+    /**
+    * {{{description}}}
+    * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
+    */
+    enum class {{{nameInPascalCase}}}(val value: {{#isContainer}}{{#items}}{{{dataType}}}{{/items}}{{/isContainer}}{{^isContainer}}{{{dataType}}}{{/isContainer}}) {
+{{#allowableValues}}{{#enumVars}}
+        @JsonProperty({{{value}}}) {{{name}}}({{{value}}}){{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
+    }
+{{/isEnum}}{{/vars}}{{/hasEnums}}
+}
