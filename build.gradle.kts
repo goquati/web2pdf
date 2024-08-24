@@ -78,7 +78,6 @@ openApiGenerate {
     validateSpec.set(true)
     modelNameSuffix.set("Dto")
     additionalProperties.set(mapOf("removeEnumValuePrefix" to "false"))
-    templateDir.set("$projectDir/src/main/resources/oas-templates")
     configOptions.set(
         mapOf(
             "appendRequestToHandler" to "true",
