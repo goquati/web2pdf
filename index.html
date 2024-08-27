@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Basic HTML Page</title>
+    <link rel="stylesheet" href="console2.css?id=1">
+    <link rel="stylesheet" href="background.css?id=1">
+</head>
+<body>
+<header>
+    <div style="width: 1rem"></div>
+    <svg style="flex-shrink:0;  width: 3rem; height: 3rem;" id="logo-38" width="100%" height="100%"
+         viewBox="0 0 78 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M55.5 0H77.5L58.5 32H36.5L55.5 0Z" class="ccustom" fill="#FF7A00"></path>
+        <path d="M35.5 0H51.5L32.5 32H16.5L35.5 0Z" class="ccompli1" fill="#FF9736"></path>
+        <path d="M19.5 0H31.5L12.5 32H0.5L19.5 0Z" class="ccompli2" fill="#FFBC7D"></path>
+    </svg>
+    <div class="spacer"></div>
+    <!--
+    <h4><a>Pricing</a></h4>
+    <h4><a>Features</a></h4>
+    <h4><a>Blog</a></h4>
+    <div class="spacer"></div>
+    <button class="secondary">Get Started</button>
+    -->
+    <div style="width: 1rem"></div>
+</header>
+
+<main>
+    <section style="display: flex; flex-direction: column; align-items: center; gap: 3rem">
+        <h1 style="margin: auto; width: fit-content">Generate PDF Documents<br>Directly from Your Webpage with<br>Our
+            API as a Service</h1>
+        <div style="display: flex; gap: 1rem; width: 100%; justify-content: center">
+            <input id="try-it-input" class="try-it" placeholder="https://example.com"></input>
+            <button id="download-btn" class="primary">Download PDF</button>
+        </div>
+
+        <div style="width: 43rem; margin: auto">
+            <div class=fakeMenu>
+                <div class="fakeButtons fakeClose"></div>
+                <div class="fakeButtons fakeMinimize"></div>
+                <div class="fakeButtons fakeZoom"></div>
+            </div>
+            <div class="fakeScreen">
+                <p class="line1">$curl <span id="try-it-curl" color="white">https://goquati-web2pdf-7i6fr.ondigitalocean.app/web2pdf?url=http://example.com</span>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2>How It Works<br>in 3 Simple Steps</h2>
+        <ul class="how-to">
+            <li>
+                <strong>Design a Web Page<br><br></strong>
+                Create your desired PDF-Design as a Webpage using any Webtechnology you like. Use @media print to modify
+                an existing website to achive a desired design with print-css.
+            </li>
+
+            <li>
+                <strong>Call Our API<br><br></strong>
+                Send the URL of your web page to our API. We handle the rest, applying your print styles and converting
+                the page into a PDF.
+            </li>
+
+            <li>
+                <strong>Download Your PDF<br><br></strong>
+                Get your PDF instantly, ready for download, sharing, or further processing.
+            </li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Learn How to Make the Most<br>out of our PDF Service</h2>
+        <p class="subtitle">Explore our comprehensive guides to get started quickly,<br> optimize your PDFs, and
+            integrate advanced features.</p>
+        <div style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 3rem; padding: 2rem">
+            <article class="blog-card">
+                <img src="https://cdn.prod.website-files.com/6649a13f6aacc0c45682cc2d/667c96cc2590d54337d547bf_vagaro-2NhUpmdYNIU-unsplash.jpg">
+                <div style="display: flex; flex-direction: column; padding: 1rem 2rem; gap: 1rem; height: 100%">
+                    <div class="blog-card-read-time">20m read time</div>
+                    <div class="blog-card-title">Designing for PDF Print with CSS</div>
+                    <div class="blog-card-description">Master the art of print-specific CSS. This guide explains how to
+                        use @media print to create layouts that look great in PDF format.
+                    </div>
+                    <div style="flex-grow: 1"></div>
+                    <div class="blog-card-author">F. Kratzer - 24 Mai 2024</div>
+                </div>
+            </article>
+            <article class="blog-card">
+                <img src="https://cdn.prod.website-files.com/6649a13f6aacc0c45682cc2d/667c982ee698ab065f24f12d_surface-Z7xoFKlmtgE-unsplash-p-800.jpg">
+                <div style="display: flex; flex-direction: column; padding: 1rem 2rem; gap: 1rem; height: 100%">
+                    <div class="blog-card-read-time">20m read time</div>
+                    <div class="blog-card-title">Advanced PDF Customization</div>
+                    <div class="blog-card-description">Unlock the full potential of our service by customizing your
+                        PDFs. Learn how to adjust page sizes, add headers and footers, and use other advanced features.
+                    </div>
+                    <div style="flex-grow: 1"></div>
+                    <div class="blog-card-author">F. Kratzer - 24 Mai 2024</div>
+                </div>
+            </article>
+            <article class="blog-card">
+                <img src="https://cdn.prod.website-files.com/6649a13f6aacc0c45682cc2d/667c97702b305e07ee5ae668_startae-team-QEsaXprgVfQ-unsplash-p-800.jpg">
+                <div style="display: flex; flex-direction: column; padding: 1rem 2rem; gap: 1rem; height: 100%">
+                    <div class="blog-card-read-time">20m read time</div>
+                    <div class="blog-card-title">Getting Started with Our API</div>
+                    <div class="blog-card-description">Learn how to integrate our PDF generation API into your
+                        application step-by-step. This guide covers everything from setting up your API key to making
+                        your first API call.
+                    </div>
+                    <div style="flex-grow: 1"></div>
+                    <div class="blog-card-author">F. Kratzer - 24 Mai 2024</div>
+                </div>
+            </article>
+        </div>
+    </section>
+
+</main>
+
+
+<div class="dot"></div>
+<div class="grid"></div>
+
+</body>
+
+<script>
+    const quatiApiUrl = "https://goquati-web2pdf-7i6fr.ondigitalocean.app/web2pdf?url=$URL";
+    const curlStr = "--location '" + quatiApiUrl + "' --output $FILE_NAME.pdf"
+    const initialUrl = "https://example.com"
+
+    function extractFileName(url) {
+        const matches = url.match(/^(?:https?:\/\/)?(?:www\.)?(?:[^\/\n]+\.)?([^\/\n]+\.[^\/\n]+)/i);
+        if (matches && matches.length >= 2)
+            return matches[1]
+        return "download.pdf"
+    }
+
+    function downloadURI(uri, name) {
+        let link = document.createElement("a");
+        link.download = name;
+        link.href = uri;
+        link.target = '_blank'
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        delete link;
+    }
+
+
+    const fileName = extractFileName(initialUrl)
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const curl = document.getElementById('try-it-curl')
+        curl.innerText = curlStr.replace("$URL", initialUrl).replace("$FILE_NAME", fileName)
+
+        const tryItInput = document.getElementById('try-it-input');
+        tryItInput.addEventListener('input', function (event) {
+            const urlInput = event.target.value;
+            curl.innerText = curlStr.replace("$URL", urlInput).replace("$FILE_NAME", extractFileName(urlInput))
+        })
+
+        document.getElementById('download-btn').addEventListener('click', function (event) {
+            let urlInput = tryItInput.innerText
+            if (!urlInput)
+                urlInput = initialUrl
+            const fileName = extractFileName(urlInput)
+            const url = quatiApiUrl.replace("$URL", urlInput)
+            downloadURI(url, fileName)
+        })
+    });
+</script>
+
+<style>
+    :root {
+        --text-secondary: rgba(0, 8, 20, .7);
+        --brand: #ffd60a;
+    }
+
+    * {
+        font-family: Inter, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    a {
+        cursor: pointer;
+        color: inherit;
+        text-decoration: none;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+    main {
+        display: flex;
+        flex-direction: column;
+        max-width: 75rem;
+        margin: auto;
+    }
+
+    section {
+        margin: 5rem 0;
+    }
+
+    h1 {
+        font-size: 3rem;
+        font-weight: 500;
+        text-align: center;
+    }
+
+    h2 {
+        font-size: 2.5rem;
+        font-weight: 500;
+        text-align: center;
+    }
+
+    h4 {
+        color: var(--text-secondary);
+        font-weight: 500;
+    }
+
+    .subtitle {
+        color: var(--text-secondary);
+        font-size: 1.1rem;
+        text-align: center;
+        margin: 2rem 0;
+    }
+
+    .spacer {
+        width: 100%;
+        flex-grow: 1;
+    }
+
+    header {
+        width: 100%;
+        max-width: 75rem;
+        margin: auto;
+        margin-bottom: 4rem;
+        display: flex;
+        height: 5rem;
+        align-items: center;
+        gap: 2rem;
+    }
+
+    button {
+        flex-shrink: 0;
+        padding: .7rem 1rem;
+        border-radius: 3rem;
+        background-color: transparent;
+        border: solid var(--brand) 2px;
+        font-size: 1rem;
+        cursor: pointer;
+
+        &.secondary {
+            color: var(--text-secondary);
+
+            &:hover {
+                background-color: var(--brand);
+            }
+        }
+
+        &.primary {
+            background-color: var(--brand);
+        }
+    }
+
+    .try-it {
+        border: none;
+        border: solid 2px;
+        width: 100%;
+        max-width: 30rem;
+        flex: 1 1 30rem;
+        height: 3.5rem;
+        border-radius: 2rem;
+        padding: 0 1.5rem;
+        outline: none;
+        box-shadow: none;
+        font-size: 1rem;
+    }
+
+    .blog-card {
+        cursor: pointer;
+        flex: 0 1 340px;
+        min-width: 320px;
+        height: 500px;
+        display: flex;
+        flex-direction: column;
+        border: solid #000 2px;
+        border-radius: 1rem;
+
+        &:hover {
+            box-shadow: -3px 3px 0px 2px #000;
+        }
+
+        img {
+            width: 100%;
+            height: 188px;
+            border-radius: .75rem .75rem 0 0;
+            border-bottom: solid #000 2px;
+        }
+
+        .blog-card-author, .blog-card-description, .blog-card-read-time {
+            color: var(--text-secondary);
+            line-height: 1.5rem;
+        }
+
+        .blog-card-description {
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 4; /* number of lines to show */
+            line-clamp: 4;
+            -webkit-box-orient: vertical;
+        }
+
+        .blog-card-author {
+            align-self: flex-end;
+        }
+
+        .blog-card-title {
+            color: #000;
+            font-size: 1.5rem;
+        }
+    }
+
+    .how-to {
+        margin-top: 5rem;
+        list-style-type: none;
+        display: flex;
+        gap: 2rem;
+        justify-content: space-around;
+
+        li {
+            display: inline-block;
+            max-width: 320px;
+            color: var(--text-secondary);
+            line-height: 1.5rem;
+
+            strong {
+                color: #000;
+            }
+        }
+    }
+
+
+    /* CONSOLE CSS */
+
+</style>
+</html>

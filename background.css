@@ -1,0 +1,23 @@
+
+.grid {
+    z-index: -1;
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    width: 100%;
+    background-image: linear-gradient(to right, #80808012 1px, transparent 1px), linear-gradient(to bottom, #80808012 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, #000 60%, transparent 100%);
+}
+.dot {
+    z-index: -1;
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    width: 100%;
+    background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+    background-position-x: -39.5px;
+    background-position-y: -39.5px;
+    background-size: 80px 80px;
+    mask-image: radial-gradient(ellipse 90% 80% at 50% 70%, #000 60%, transparent 100%);
+}
