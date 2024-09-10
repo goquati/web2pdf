@@ -1,8 +1,8 @@
-package io.github.klahap.service
+package io.github.goquati.service
 
 import de.smart.nexus.orchestrator.oas_model.PdfPrintOptionsDto
 import de.smart.nexus.orchestrator.oas_model.Web2PdfRequestDto
-import io.github.klahap.Web2PdfException
+import io.github.goquati.Web2PdfException
 import io.ktor.http.*
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
@@ -20,20 +20,24 @@ import kotlin.io.encoding.ExperimentalEncodingApi
 class Web2PdfService(
     private val browserSessionService: BrowserSessionService,
 ) {
-    suspend fun generatePdf(request: Web2PdfRequestDto): ByteArray = runCatching {
-        val url = runCatching { Url(request.url) }.getOrElse { throw Exception("invalid url") }
+    suspend fun generatePdf(
+        url: String,
+        headers: Map<String, String>? = null,
+        cookies: Map<String, String>? = null,
+        options: PdfPrintOptionsDto?,
+    ): ByteArray = runCatching {
+        val url = runCatching { Url(url) }.getOrElse { throw Exception("invalid url") }
         browserSessionService.getPageSession().use { pageSession ->
-            pageSession.network.addHeaders(request.headers ?: emptyMap())
-            pageSession.network.addCookies(request.cookies ?: emptyMap(), host = url.host)
+            pageSession.network.addHeaders(headers ?: emptyMap())
+            pageSession.network.addCookies(cookies ?: emptyMap(), host = url.host)
             runCatching {
                 pageSession.goto(url.toString())
             }.getOrElse { throw Exception("Navigation to '${url.host}' failed. The full URL is hidden for security reasons. Please ensure the URL is correct and reachable.") }
 
-            pageSession.page.printToPDF(request.options?.pdfOptions ?: PrintToPDFRequest())
+            pageSession.page.printToPDF(options?.pdfOptions ?: PrintToPDFRequest())
                 .let { @OptIn(ExperimentalEncodingApi::class) Base64.decode(it.data) }
         }
     }.getOrElse { throw Web2PdfException(it.message ?: "") }
-
 
 
     private suspend fun NetworkDomain.addHeaders(data: Map<String, String>) {

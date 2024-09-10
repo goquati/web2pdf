@@ -1,12 +1,12 @@
-package io.github.klahap.api
+package io.github.goquati.api
 
 import de.smart.nexus.orchestrator.api.Web2pdfApi
 import de.smart.nexus.orchestrator.oas_model.PdfPrintOptionsDto
 import de.smart.nexus.orchestrator.oas_model.Web2PdfRequestDto
-import io.github.klahap.LoggerDelegate
-import io.github.klahap.LoggerDelegate.Companion.measureExecutionTime
-import io.github.klahap.service.Web2PdfService
-import io.github.klahap.service.Web2PdfService.Companion.host
+import io.github.goquati.LoggerDelegate
+import io.github.goquati.LoggerDelegate.Companion.measureExecutionTime
+import io.github.goquati.service.Web2PdfService
+import io.github.goquati.service.Web2PdfService.Companion.host
 import org.springframework.core.io.ByteArrayResource
 import org.springframework.core.io.Resource
 import org.springframework.http.ResponseEntity
@@ -38,8 +38,13 @@ class Web2PdfController(
 
     private suspend fun Web2PdfRequestDto.toPdfResponse(): ResponseEntity<Resource> =
         log.measureExecutionTime("generated PDF ($host)") {
-            web2PdfService.generatePdf(this)
-        }.let { ResponseEntity.ok<Resource>(ByteArrayResource(it)) }
+            web2PdfService.generatePdf(
+                url = url,
+                headers = headers,
+                cookies = cookies,
+                options = options,
+            )
+        }.let { ResponseEntity.ok(ByteArrayResource(it)) }
 
     companion object {
         private val log by LoggerDelegate()

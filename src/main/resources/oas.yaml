@@ -4,6 +4,38 @@ info:
   version: 1.0.0
 
 paths:
+  /html2pdf:
+    post:
+      tags:
+        - html2pdf
+      operationId: convertHtml2Pdf
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Html2PdfRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/PDF'
+        '400':
+          $ref: '#/components/responses/ErrorResponse'
+  /markdown2pdf:
+    post:
+      tags:
+        - markdown2pdf
+      operationId: convertMarkdown2Pdf
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Markdown2PdfRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/PDF'
+        '400':
+          $ref: '#/components/responses/ErrorResponse'
   /web2pdf:
     post:
       tags:
@@ -101,6 +133,37 @@ components:
             type: string
           example:
             my-cookie: my-cookie-value
+        options:
+          $ref: '#/components/schemas/PdfPrintOptions'
+    Html2PdfRequest:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          type: string
+          example: |
+            <!doctype html>
+            <html lang=en>
+            <head>
+              <meta charset=utf-8>
+              <title>Hello</title>
+            </head>
+            <body>
+              <p>Hello World</p>
+            </body>
+            </html>
+        options:
+          $ref: '#/components/schemas/PdfPrintOptions'
+    Markdown2PdfRequest:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          type: string
+          example: |
+            # Hello World
         options:
           $ref: '#/components/schemas/PdfPrintOptions'
     PdfPrintOptions:

@@ -1,4 +1,4 @@
-package io.github.klahap
+package io.github.goquati
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory

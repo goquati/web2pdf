@@ -1,4 +1,4 @@
-package io.github.klahap
+package io.github.goquati
 
 import de.smart.nexus.orchestrator.oas_model.ErrorResponseDto
 import org.springframework.http.HttpStatus

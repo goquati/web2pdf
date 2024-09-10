@@ -1,4 +1,4 @@
-package io.github.klahap
+package io.github.goquati
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.EnableConfigurationProperties

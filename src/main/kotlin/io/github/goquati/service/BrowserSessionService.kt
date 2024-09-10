@@ -1,6 +1,6 @@
-package io.github.klahap.service
+package io.github.goquati.service
 
-import io.github.klahap.LoggerDelegate
+import io.github.goquati.LoggerDelegate
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.updateAndGet
