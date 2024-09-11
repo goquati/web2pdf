@@ -4,6 +4,22 @@ info:
   version: 1.0.0
 
 paths:
+  /template2pdf/invoiceBaseDin5008:
+    post:
+      tags:
+        - template2pdf
+      operationId: getInvoiceBaseDin5008
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TemplateInvoiceBaseDin5008'
+      responses:
+        '200':
+          $ref: '#/components/responses/PDF'
+        '400':
+          $ref: '#/components/responses/ErrorResponse'
   /html2pdf:
     post:
       tags:
@@ -275,6 +291,144 @@ components:
             Whether or not to embed the document outline into the PDF.
           type: boolean
           example: false
+    TemplateInvoiceBaseDin5008:
+      type: object
+      required:
+        - type
+        - receiver
+        - sender
+        - details
+        - itemHeader
+        - items
+        - summary
+        - footer
+      properties:
+        type:
+          type: string
+          enum:
+            - A
+            - B
+          example: 'A'
+        receiverInfo:
+          type: array
+          items:
+            type: string
+          example:
+            - 'Firma GmbH | Musterstraße 1 | 12345 Musterstadt'
+            - ''
+            - ''
+        receiver:
+          type: array
+          items:
+            type: string
+          example:
+            - 'Kundenname'
+            - 'Firmenadresse 123'
+            - '98765 Kundenstadt'
+        sender:
+          type: array
+          items:
+            type: string
+          example:
+            - 'Firma GmbH'
+            - 'Musterstraße 1'
+            - '12345 Musterstadt'
+            - 'Umsatzsteuer-ID: DE123456789'
+            - 'Handelsregister: HRB 12345'
+        subject:
+          type: string
+          example: "Rechnung"
+        details:
+          type: array
+          items:
+            type: object
+            required:
+              - title
+              - value
+            properties:
+              title:
+                type: string
+              value:
+                type: string
+          example:
+            - title: 'Rechnungsnummer'
+              value: '2024-001'
+            - title: 'Rechnungsdatum'
+              value: '10. September 2024'
+            - title: 'Fälligkeitsdatum'
+              value: '24. September 2024'
+            - title: 'Leistungsdatum'
+              value: '10. September 2024'
+        itemHeader:
+          $ref: "#/components/schemas/TemplateInvoiceBaseDin5008Row"
+          example:
+            description: 'Beschreibung'
+            quantity: 'Menge'
+            unitPrice: 'Einzelpreis'
+            total: 'Gesamt'
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/TemplateInvoiceBaseDin5008Row"
+          example:
+            - description: 'Product A'
+              quantity: '1'
+              unitPrice: '100,00 €'
+              total: '100,00 €'
+            - description: 'Product B'
+              quantity: '2'
+              unitPrice: '50,00 €'
+              total: '100,00 €'
+        summary:
+          type: array
+          items:
+            type: object
+            required:
+              - title
+              - value
+              - bold
+            properties:
+              title:
+                type: string
+              value:
+                type: string
+              bold:
+                type: boolean
+                default: false
+          example:
+            - title: 'Zwischensumme'
+              value: '200,00 €'
+              bold: false
+            - title: 'Umsatzsteuer (19%)'
+              value: '39,00 €'
+              bold: false
+            - title: 'Gesamtbetrag'
+              value: '239,00 €'
+              bold: true
+        footer:
+          type: array
+          items:
+            type: string
+          example:
+            - 'Vielen Dank für Ihr Vertrauen in unser Unternehmen.'
+            - 'Zahlbar innerhalb von 14 Tagen auf folgendes Konto:'
+            - 'Bankverbindung: IBAN: DE12345678901234567890 | BIC: ABCDDEFFXXX'
+    TemplateInvoiceBaseDin5008Row:
+      type: object
+      required:
+        - description
+        - quantity
+        - unitPrice
+        - total
+      properties:
+        description:
+          type: string
+        quantity:
+          type: string
+        unitPrice:
+          type: string
+        total:
+          type: string
     ErrorResponse:
       type: object
       required:

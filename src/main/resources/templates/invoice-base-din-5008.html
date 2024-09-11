@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invoice</title>
+  <style>
+      :root {
+          --font-size-normal: 16px;
+          --font-size-small: 12px;
+          --font-size-tiny: 10px;
+      }
+
+      body {
+          font-family: Arial, sans-serif;
+          font-size: var(--font-size-normal);
+          color: #333;
+      }
+
+      table {
+          width: 100%;
+          border-collapse: collapse;
+      }
+
+      .invoice-box {
+          margin: auto;
+          border: 1px solid #eee;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+      }
+
+      .address-info-line {
+          min-height: var(--font-size-tiny);
+          font-size: var(--font-size-tiny);
+          padding: 0.1mm 0;
+      }
+
+      .address-line {
+          min-height: var(--font-size-normal);
+          font-size: var(--font-size-normal);
+          padding: 0.2mm 0;
+      }
+
+      .footer-line {
+          min-height: var(--font-size-small);
+          font-size: var(--font-size-small);
+          text-align: center;
+          color: #777;
+      }
+
+      .invoice-details {
+          margin-bottom: 7mm;
+
+          th, td {
+              padding: 0.5mm 0;
+          }
+
+          th {
+              width: 0;
+              font-weight: normal;
+              text-align: left;
+              padding-right: 5mm;
+          }
+      }
+
+      .items-box {
+          th, td {
+              border: 1px solid #eee;
+              padding: 1.2mm 2mm;
+          }
+
+          th {
+              background-color: #f2f2f2;
+          }
+
+          td.quantity {
+              text-align: center;
+          }
+
+          td.currency {
+              text-align: right;
+              white-space: nowrap;
+          }
+
+          td.total-label {
+              text-align: right;
+              border: none;
+          }
+      }
+
+      .helper-box {
+          border: 0.001mm solid darkred;
+      }
+
+      .marker {
+          position: absolute;
+          border-top: 1px solid black;
+      }
+
+      @media print {
+          body {
+              margin: 0;
+          }
+
+          .helper-box {
+              border: none;
+          }
+
+          .invoice-box {
+              border: none;
+              box-shadow: none;
+          }
+      }
+  </style>
+</head>
+
+<body>
+
+<div class="invoice-box" style="position: relative; width: 210mm; height: 297mm; display: flex; flex-direction: column">
+  {{#isTypeA}}
+  <div class="marker" style="top:  87mm; width: 6.5mm"></div>
+  <div class="marker" style="top: 192mm; width: 6.5mm"></div>
+  {{/isTypeA}}
+  {{^isTypeA}}
+  <div class="marker" style="top: 105mm; width: 6.5mm"></div>
+  <div class="marker" style="top: 210mm; width: 6.5mm"></div>
+  {{/isTypeA}}
+  <div class="marker" style="top: 148.5mm; width: 4.0mm; left: 4mm"></div>
+
+  <div
+    style="display: flex; justify-content: space-between; margin: {{#isTypeA}}27{{/isTypeA}}{{^isTypeA}}45{{/isTypeA}}mm 10mm 8.46mm 20mm">
+
+    <div class="helper-box" style="padding-left: 5mm; width: 80mm">
+      <div class="helper-box" style="height: 17.7mm; position: relative">
+        <div style="position: absolute; bottom: 0">
+          {{#receiverInfo}}
+          <div class="address-info-line">{{.}}</div>
+          {{/receiverInfo}}
+        </div>
+      </div>
+      <div class="helper-box" style="height: 27.3mm">
+        {{#receiver}}
+        <div class="address-line">{{.}}</div>
+        {{/receiver}}
+      </div>
+    </div>
+
+    <div class="helper-box" style="margin-top: 5mm; min-height: 40mm; max-width: 75mm; text-align: right">
+      {{#sender}}
+      <div class="address-line">{{.}}</div>
+      {{/sender}}
+    </div>
+  </div>
+
+  <div class="helper-box" style="flex-grow: 1; margin: 0 20mm 4.23mm 25mm">
+    {{#subject}}
+    <h3>{{subject}}</h3>
+    {{/subject}}
+
+    <div class="invoice-details">
+      <table>
+        {{#details}}
+        <tr>
+          <th>{{title}}:</th>
+          <td>{{value}}</td>
+        </tr>
+        {{/details}}
+      </table>
+    </div>
+
+    <table class="items-box">
+      <thead>
+      <tr>
+        <th>{{itemHeader.description}}</th>
+        <th>{{itemHeader.quantity}}</th>
+        <th>{{itemHeader.unitPrice}}</th>
+        <th>{{itemHeader.total}}</th>
+      </tr>
+      </thead>
+      <tbody>
+      {{#items}}
+      <tr>
+        <td>{{description}}</td>
+        <td class="quantity">{{quantity}}</td>
+        <td class="currency">{{unitPrice}}</td>
+        <td class="currency">{{total}}</td>
+      </tr>
+      {{/items}}
+      </tbody>
+      <tfoot>
+      {{#summary}}
+      <tr style="{{#bold}}font-weight: bold{{/bold}}">
+        <td colspan="3" class="total-label">{{title}}</td>
+        <td class="currency">{{value}}</td>
+      </tr>
+      {{/summary}}
+      </tfoot>
+    </table>
+  </div>
+
+  <div class="helper-box" style="margin: 4.23mm 20mm 10mm 25mm">
+    {{#footer}}
+    <div class="footer-line">{{.}}</div>
+    {{/footer}}
+  </div>
+</div>
+
+</body>
+</html>

@@ -63,7 +63,8 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
     implementation("io.ktor:ktor-client-cio:2.3.12")
-    implementation("org.hildan.chrome:chrome-devtools-kotlin:6.3.0-1340018")
+    implementation("org.hildan.chrome:chrome-devtools-kotlin:6.4.1-1347815")
+    implementation("com.github.spullara.mustache.java:compiler:0.9.10")
 }
 
 val openApiGenDstRoot = "de.smart.nexus.orchestrator"
