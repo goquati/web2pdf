@@ -7,12 +7,22 @@ FROM alpine:3.19
 RUN apk upgrade --no-cache --available \
     && apk add --no-cache \
       chromium-swiftshader \
+      openjdk21-jre \
       ttf-freefont \
       font-noto-emoji \
-    && apk add --no-cache \
-      --repository=https://dl-cdn.alpinelinux.org/alpine/edge/community \
-      font-wqy-zenhei \
-    && apk --no-cache add openjdk21-jre
+      fontconfig \
+    && fc-cache -f
+
+# additional fonts
+# RUN apk add --no-cache \
+#      font-terminus \
+#      font-inconsolata \
+#      font-dejavu \
+#      font-awesome \
+#      font-noto \
+#      font-noto-cjk \
+#      font-noto-extra \
+#    && fc-cache -f
 
 RUN mkdir -p /usr/src/app \
     && adduser -D chrome \
