@@ -11,9 +11,7 @@ plugins {
 }
 
 group = "io.github.goquati"
-version = "0.0.1"
-
-project.group
+version = System.getenv("GIT_TAG_VERSION") ?: "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -33,14 +31,10 @@ tasks {
     }
 }
 
-
-val buildDir = layout.buildDirectory.get()
-val projectDir = layout.projectDirectory
-
 sourceSets {
     main {
         kotlin {
-            srcDir("$buildDir/generated/oas/src/main/kotlin")
+            srcDir("$rootDir/build/generated/oas/src/main/kotlin")
         }
     }
 }
@@ -73,7 +67,7 @@ openApiGenerate {
     generatorName.set("kotlin-spring")
     library.set("spring-boot")
     inputSpec.set("$rootDir/src/main/resources/oas.yaml")
-    outputDir.set("$buildDir/generated/oas")
+    outputDir.set("$rootDir/build/generated/oas")
     apiPackage.set("$openApiGenDstRoot.api")
     invokerPackage.set("$openApiGenDstRoot.invoker")
     modelPackage.set("$openApiGenDstRoot.oas_model")
@@ -94,7 +88,19 @@ openApiGenerate {
     )
 }
 
-tasks.compileKotlin { dependsOn(tasks.openApiGenerate) }
+tasks.compileKotlin {
+    dependsOn(tasks.openApiGenerate)
+    dependsOn("createBanner")
+}
+
+tasks.register("createBanner") {
+    doLast {
+        val bannerTemplate = file("$rootDir/banner-template.txt").readText()
+        val length = bannerTemplate.split('\n').maxOf { it.length }
+        val content = bannerTemplate + "v$version".padStart(length) + "\n"
+        file("$rootDir/src/main/resources/banner.txt").writeText(content)
+    }
+}
 
 // start chrome for local development start:
 // docker container run --rm -p 9222:9222 zenika/alpine-chrome --no-sandbox --remote-debugging-address=0.0.0.0 --remote-debugging-port=9222 about:blank

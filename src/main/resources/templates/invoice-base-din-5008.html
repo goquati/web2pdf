@@ -88,7 +88,7 @@
       }
 
       .helper-box {
-          border: 0.001mm solid darkred;
+          outline: 0.001mm solid darkred;
       }
 
       .marker {
@@ -102,7 +102,7 @@
           }
 
           .helper-box {
-              border: none;
+              outline: none;
           }
 
           .invoice-box {
@@ -130,7 +130,14 @@
     style="display: flex; justify-content: space-between; margin: {{#isTypeA}}27{{/isTypeA}}{{^isTypeA}}45{{/isTypeA}}mm 10mm 8.46mm 20mm">
 
     <div class="helper-box" style="padding-left: 5mm; width: 80mm">
-      <div class="helper-box" style="height: 17.7mm; position: relative">
+      <div class="helper-box" style="height: 5mm ; position: relative">
+        {{#sendBackAddress}}
+        <div class="address-info-line" style="position: absolute; bottom: 0; border-bottom: 1px solid black; width: 100%">
+          {{sendBackAddress}}
+        </div>
+        {{/sendBackAddress}}
+      </div>
+      <div class="helper-box" style="height: 12.7mm; position: relative">
         <div style="position: absolute; bottom: 0">
           {{#receiverInfo}}
           <div class="address-info-line">{{.}}</div>
@@ -144,7 +151,7 @@
       </div>
     </div>
 
-    <div class="helper-box" style="margin-top: 5mm; min-height: 40mm; max-width: 75mm; text-align: right">
+    <div class="helper-box" style="margin-top: 5mm; min-height: 40mm; max-width: 75mm">
       {{#sender}}
       <div class="address-line">{{.}}</div>
       {{/sender}}

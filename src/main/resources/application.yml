@@ -1,0 +1,3 @@
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSSXXX} %clr(%5p) [%15thread] %clr(%-40.40logger{39}){cyan} : %msg%n"

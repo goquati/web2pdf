@@ -72,11 +72,8 @@ class Template2PdfService(
                     get() = InvoiceBaseDin5008(
                         TemplateInvoiceBaseDin5008Dto(
                             type = TemplateInvoiceBaseDin5008Dto.Type.A,
-                            receiverInfo = listOf(
-                                "Firma GmbH | Musterstraße 1 | 12345 Musterstadt",
-                                "",
-                                "",
-                            ),
+                            sendBackAddress = "Firma GmbH | Musterstraße 1 | 12345 Musterstadt",
+                            receiverInfo = listOf(),
                             receiver = listOf(
                                 "Kundenname",
                                 "Firmenadresse 123",

@@ -1,6 +1,7 @@
 package io.github.goquati.service
 
 import io.github.goquati.LoggerDelegate
+import io.github.goquati.Web2PdfException
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.updateAndGet
@@ -10,6 +11,7 @@ import org.hildan.chrome.devtools.protocol.RequestNotSentException
 import org.hildan.chrome.devtools.sessions.BrowserSession
 import org.hildan.chrome.devtools.sessions.PageSession
 import org.hildan.chrome.devtools.sessions.newPage
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import java.net.ConnectException
 import kotlin.time.Duration.Companion.seconds
@@ -47,8 +49,13 @@ class BrowserSessionService {
         return try {
             session.newPage()
         } catch (e: RequestNotSentException) {
-            createNewBrowserSession(sessionId).newPage().also {
-                log.info("new websocket connection to browser created")
+            try {
+                createNewBrowserSession(sessionId).newPage().also {
+                    log.info("new websocket connection to browser created")
+                }
+            } catch (e: Exception) {
+                log.error("cannot connect to chromium, restart server!")
+                throw Web2PdfException("Internal Server Error", status = HttpStatus.INTERNAL_SERVER_ERROR)
             }
         }
     }

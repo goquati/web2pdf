@@ -28,6 +28,8 @@ jobs:
           context: .
           push: true
           platforms: linux/amd64,linux/arm64
+          build-args: |
+            GIT_TAG_VERSION=${{ github.ref_name }}
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/web2pdf:latest
             ${{ secrets.DOCKERHUB_USERNAME }}/web2pdf:${{ github.ref_name }}

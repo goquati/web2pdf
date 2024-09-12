@@ -309,14 +309,14 @@ components:
             - A
             - B
           example: 'A'
+        sendBackAddress:
+          type: string
+          example: 'Firma GmbH | Musterstraße 1 | 12345 Musterstadt'
         receiverInfo:
           type: array
           items:
             type: string
-          example:
-            - 'Firma GmbH | Musterstraße 1 | 12345 Musterstadt'
-            - ''
-            - ''
+          example: []
         receiver:
           type: array
           items:

@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  chrome:
+    build:
+      dockerfile: Dockerfile
+      context: .
+      args:
+        DOCKER_BUILDKIT: 1
+      target: chrome
+    ports:
+      - "9222:9222"
+  quati-pdf:
+    build:
+      dockerfile: Dockerfile
+      context: .
+      args:
+        DOCKER_BUILDKIT: 1
+        GIT_TAG_VERSION: 0.0.1-DEV
+    ports:
+      - "8080:8080"
