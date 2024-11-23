@@ -2,7 +2,6 @@ package io.github.goquati.api
 
 import de.smart.nexus.orchestrator.api.Web2pdfApi
 import de.smart.nexus.orchestrator.oas_model.IsReadyConditionDto
-import de.smart.nexus.orchestrator.oas_model.JsConditionDto
 import de.smart.nexus.orchestrator.oas_model.PdfPrintOptionsDto
 import de.smart.nexus.orchestrator.oas_model.Web2PdfRequestDto
 import io.github.goquati.LoggerDelegate
