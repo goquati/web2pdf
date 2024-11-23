@@ -21,7 +21,7 @@ The easiest way to get `web2pdf` up and running is by using the provided Docker 
 
 2. Run the container:
    ```bash
-   docker run -d -p 8080:8080 goquati/web2pdf:latest
+   docker run -p 8080:8080 goquati/web2pdf:latest
    ```
 
 This will start the `web2pdf` service on port `8080` of your local machine.

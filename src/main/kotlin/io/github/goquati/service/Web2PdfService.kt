@@ -1,17 +1,23 @@
 package io.github.goquati.service
 
+import de.smart.nexus.orchestrator.oas_model.IsReadyConditionDto
 import de.smart.nexus.orchestrator.oas_model.PdfPrintOptionsDto
 import de.smart.nexus.orchestrator.oas_model.Web2PdfRequestDto
 import io.github.goquati.Web2PdfException
 import io.ktor.http.*
-import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.coroutines.delay
+import kotlinx.serialization.json.*
+import org.hildan.chrome.devtools.domains.emulation.EmulationDomain
+import org.hildan.chrome.devtools.domains.emulation.SetUserAgentOverrideRequest
 import org.hildan.chrome.devtools.domains.network.CookieParam
 import org.hildan.chrome.devtools.domains.network.NetworkDomain
 import org.hildan.chrome.devtools.domains.page.PrintToPDFRequest
+import org.hildan.chrome.devtools.domains.runtime.RuntimeDomain
 import org.hildan.chrome.devtools.protocol.ExperimentalChromeApi
+import org.hildan.chrome.devtools.sessions.PageSession
 import org.hildan.chrome.devtools.sessions.goto
 import org.hildan.chrome.devtools.sessions.use
+import org.intellij.lang.annotations.Language
 import org.springframework.stereotype.Service
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
@@ -21,24 +27,70 @@ class Web2PdfService(
     private val browserSessionService: BrowserSessionService,
 ) {
     suspend fun generatePdf(
-        url: String,
+        url: Url,
         headers: Map<String, String>? = null,
         cookies: Map<String, String>? = null,
+        @Language("css") customCss: String? = null,
+        condition: IsReadyConditionDto? = null,
+        acceptLanguage: String? = null,
         options: PdfPrintOptionsDto?,
     ): ByteArray = runCatching {
-        val url = runCatching { Url(url) }.getOrElse { throw Exception("invalid url") }
         browserSessionService.getPageSession().use { pageSession ->
-            pageSession.network.addHeaders(headers ?: emptyMap())
-            pageSession.network.addCookies(cookies ?: emptyMap(), host = url.host)
+            pageSession.network.apply {
+                addHeaders(headers ?: emptyMap())
+                addCookies(cookies ?: emptyMap(), host = url.host)
+            }
+            if (acceptLanguage != null)
+                pageSession.emulation.setAcceptLanguage(acceptLanguage)
+
             runCatching {
                 pageSession.goto(url.toString())
-            }.getOrElse { throw Exception("Navigation to '${url.host}' failed. The full URL is hidden for security reasons. Please ensure the URL is correct and reachable.") }
+            }.getOrElse { error("Navigation to '${url.host}' failed. The full URL is hidden for security reasons. Please ensure the URL is correct and reachable.") }
+
+            if (customCss != null)
+                pageSession.setCustomCss(customCss)
+            if (condition != null)
+                pageSession.runtime.waitForReady(condition)
 
             pageSession.page.printToPDF(options?.pdfOptions ?: PrintToPDFRequest())
                 .let { @OptIn(ExperimentalEncodingApi::class) Base64.decode(it.data) }
         }
     }.getOrElse { throw Web2PdfException(it.message ?: "") }
 
+    @OptIn(ExperimentalChromeApi::class)
+    private suspend fun PageSession.setCustomCss(data: String) {
+        dom.enable()
+        val frameId = page.getFrameTree().frameTree.frame.id
+        css.apply {
+            enable()
+            val styleSheetId = createStyleSheet(frameId = frameId).styleSheetId
+            setStyleSheetText(styleSheetId = styleSheetId, text = data)
+        }
+    }
+
+    @OptIn(ExperimentalChromeApi::class)
+    private suspend fun EmulationDomain.setAcceptLanguage(language: String) {
+        setUserAgentOverride(
+            SetUserAgentOverrideRequest(
+                userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36",
+                acceptLanguage = language
+            )
+        )
+    }
+
+    private suspend fun RuntimeDomain.waitForReady(condition: IsReadyConditionDto) {
+        enable()
+        var isLoaded = false
+        for (i in 0..<condition.maxTries) {
+            isLoaded = evaluate(expression = condition.expression)
+                .result.value?.let { it as? JsonPrimitive }?.booleanOrNull
+                ?: error("invalid response of custom JS condition")
+            if (isLoaded) break
+            delay(condition.delayInMilliSeconds.toLong())
+        }
+        if (!isLoaded)
+            error("timeout, custom JS condition not full filled")
+    }
 
     private suspend fun NetworkDomain.addHeaders(data: Map<String, String>) {
         if (data.isEmpty()) return

@@ -1,5 +1,6 @@
 package io.github.goquati.service
 
+import io.ktor.http.*
 import org.springframework.core.env.Environment
 import org.springframework.stereotype.Service
 
@@ -11,5 +12,5 @@ class EnvironmentService(
 
     val isDevMode get() = environment.activeProfiles.contains("dev")
 
-    fun getLocalServerUrl(path: String) = "http://$host:8080/$path"
+    fun getLocalServerUrl(path: String) = Url("http://$host:8080/$path")
 }

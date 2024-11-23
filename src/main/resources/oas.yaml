@@ -102,6 +102,22 @@ paths:
           example:
             my-cookie: my-cookie-value
         - in: query
+          name: acceptLanguage
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: customCss
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: condition
+          schema:
+            $ref: '#/components/schemas/IsReadyCondition'
+          style: form
+          explode: true
+        - in: query
           name: options
           required: false
           schema:
@@ -149,6 +165,12 @@ components:
             type: string
           example:
             my-cookie: my-cookie-value
+        acceptLanguage:
+          type: string
+        customCss:
+          type: string
+        condition:
+          $ref: '#/components/schemas/IsReadyCondition'
         options:
           $ref: '#/components/schemas/PdfPrintOptions'
     Html2PdfRequest:
@@ -182,6 +204,23 @@ components:
             # Hello World
         options:
           $ref: '#/components/schemas/PdfPrintOptions'
+    IsReadyCondition:
+      type: object
+      required:
+        - expression
+        - maxTries
+        - delayInMilliSeconds
+      properties:
+        expression:
+          type: string
+        maxTries:
+          type: integer
+          minimum: 1
+          example: 10
+        delayInMilliSeconds:
+          type: integer
+          minimum: 0
+          example: 1000
     PdfPrintOptions:
       type: object
       properties:
