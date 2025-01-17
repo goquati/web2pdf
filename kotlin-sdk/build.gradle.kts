@@ -105,11 +105,12 @@ tasks.named("kotlinSourcesJar") {
 }
 tasks.named("openApiGenerate") {
     doLast {
-        val authModule = Path("$openApiOutputDir/src/main/kotlin/io/github/goquati/web2pdf/auth")
-        authModule.apply {
+        val packagePath = "$openApiOutputDir/src/main/kotlin/io/github/goquati/web2pdf"
+        Path("$packagePath/auth").apply {
             listDirectoryEntries().forEach { it.deleteExisting() }
             deleteExisting()
         }
+        Path("$packagePath/infrastructure/HttpResponse.kt").deleteExisting()
     }
 }
 
