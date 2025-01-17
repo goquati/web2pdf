@@ -5,6 +5,19 @@ import io.github.goquati.web2pdf.infrastructure.HttpResponse
 import io.github.goquati.web2pdf.models.*
 import org.intellij.lang.annotations.Language
 
+
+fun PdfPrintOptions.setSizeDinA4() {
+    paperWidth = 8.3
+    paperHeight = 11.7
+}
+
+fun PdfPrintOptions.setMargin(v: Double) {
+    marginTop = v
+    marginBottom = v
+    marginLeft = v
+    marginRight = v
+}
+
 suspend fun Web2PdfApi.convertHtml2Pdf(
     @Language("html") html: String,
     block: (PdfPrintOptions.() -> Unit)? = null,
