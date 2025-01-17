@@ -7,7 +7,7 @@ paths:
   /template2pdf/invoiceBaseDin5008:
     post:
       tags:
-        - template2pdf
+        - web_2_pdf
       operationId: getInvoiceBaseDin5008
       requestBody:
         required: true
@@ -23,7 +23,7 @@ paths:
   /html2pdf:
     post:
       tags:
-        - html2pdf
+        - web_2_pdf
       operationId: convertHtml2Pdf
       requestBody:
         required: true
@@ -39,7 +39,7 @@ paths:
   /markdown2pdf:
     post:
       tags:
-        - markdown2pdf
+        - web_2_pdf
       operationId: convertMarkdown2Pdf
       requestBody:
         required: true
@@ -55,75 +55,14 @@ paths:
   /web2pdf:
     post:
       tags:
-        - web2pdf
-      operationId: postPdf
+        - web_2_pdf
+      operationId: convertWeb2Pdf
       requestBody:
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Web2PdfRequest'
-      responses:
-        '200':
-          $ref: '#/components/responses/PDF'
-        '400':
-          $ref: '#/components/responses/ErrorResponse'
-    get:
-      tags:
-        - web2pdf
-      operationId: getPdf
-      parameters:
-        - in: query
-          name: url
-          required: true
-          schema:
-            type: string
-          example: 'http://example.com'
-        - in: query
-          name: header
-          required: false
-          schema:
-            type: object
-            additionalProperties:
-              type: string
-          style: deepObject
-          explode: true
-          example:
-            Authorization: my-token
-        - in: query
-          name: cookie
-          required: false
-          schema:
-            type: object
-            additionalProperties:
-              type: string
-          style: deepObject
-          explode: true
-          example:
-            my-cookie: my-cookie-value
-        - in: query
-          name: acceptLanguage
-          required: false
-          schema:
-            type: string
-        - in: query
-          name: customCss
-          required: false
-          schema:
-            type: string
-        - in: query
-          name: condition
-          schema:
-            $ref: '#/components/schemas/IsReadyCondition'
-          style: form
-          explode: true
-        - in: query
-          name: options
-          required: false
-          schema:
-            $ref: '#/components/schemas/PdfPrintOptions'
-          style: form
-          explode: true
       responses:
         '200':
           $ref: '#/components/responses/PDF'
@@ -146,6 +85,15 @@ components:
             $ref: '#/components/schemas/ErrorResponse'
   schemas:
     Web2PdfRequest:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          $ref: '#/components/schemas/Web2Pdf'
+        options:
+          $ref: '#/components/schemas/PdfPrintOptions'
+    Web2Pdf:
       type: object
       required:
         - url
@@ -171,8 +119,6 @@ components:
           type: string
         condition:
           $ref: '#/components/schemas/IsReadyCondition'
-        options:
-          $ref: '#/components/schemas/PdfPrintOptions'
     Html2PdfRequest:
       type: object
       required:

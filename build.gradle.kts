@@ -10,7 +10,9 @@ plugins {
     kotlin("plugin.serialization") version "2.0.10"
 }
 
-group = "io.github.goquati"
+val groupStr = "io.github.goquati"
+val openApiGenDstRoot = "$groupStr.oas"
+group = groupStr
 version = System.getenv("GIT_TAG_VERSION") ?: "1.0-SNAPSHOT"
 
 repositories {
@@ -61,12 +63,10 @@ dependencies {
     implementation("com.github.spullara.mustache.java:compiler:0.9.10")
 }
 
-val openApiGenDstRoot = "de.smart.nexus.orchestrator"
-
 openApiGenerate {
     generatorName.set("kotlin-spring")
     library.set("spring-boot")
-    inputSpec.set("$rootDir/src/main/resources/oas.yaml")
+    inputSpec.set("$rootDir/oas.yaml")
     outputDir.set("$rootDir/build/generated/oas")
     apiPackage.set("$openApiGenDstRoot.api")
     invokerPackage.set("$openApiGenDstRoot.invoker")

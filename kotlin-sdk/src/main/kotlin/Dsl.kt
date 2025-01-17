@@ -1,0 +1,30 @@
+package io.github.goquati.web2pdf.dsl
+
+import io.github.goquati.web2pdf.apis.Web2PdfApi
+import io.github.goquati.web2pdf.infrastructure.HttpResponse
+import io.github.goquati.web2pdf.models.*
+import org.intellij.lang.annotations.Language
+
+suspend fun Web2PdfApi.convertHtml2Pdf(
+    @Language("html") html: String,
+    block: (PdfPrintOptions.() -> Unit)? = null,
+): HttpResponse<java.io.File> {
+    val options = block?.let { PdfPrintOptions().apply(it) }
+    return convertHtml2Pdf(Html2PdfRequest(html, options))
+}
+
+suspend fun Web2PdfApi.convertMarkdown2Pdf(
+    @Language("markdown") markdown: String,
+    block: (PdfPrintOptions.() -> Unit)? = null,
+): HttpResponse<java.io.File> {
+    val options = block?.let { PdfPrintOptions().apply(it) }
+    return convertMarkdown2Pdf(Markdown2PdfRequest(markdown, options))
+}
+
+suspend fun Web2PdfApi.convertWeb2Pdf(
+    data: Web2Pdf,
+    block: (PdfPrintOptions.() -> Unit)? = null,
+): HttpResponse<java.io.File> {
+    val options = block?.let { PdfPrintOptions().apply(it) }
+    return convertWeb2Pdf(Web2PdfRequest(data, options))
+}

@@ -1,6 +1,6 @@
 package io.github.goquati.service
 
-import de.smart.nexus.orchestrator.oas_model.PdfPrintOptionsDto
+import io.github.goquati.oas.oas_model.PdfPrintOptionsDto
 import org.intellij.markdown.flavours.commonmark.CommonMarkFlavourDescriptor
 import org.intellij.markdown.html.HtmlGenerator
 import org.intellij.markdown.parser.MarkdownParser

@@ -1,7 +1,7 @@
 package io.github.goquati.service
 
-import de.smart.nexus.orchestrator.oas_model.PdfPrintOptionsDto
 import io.github.goquati.Web2PdfException
+import io.github.goquati.oas.oas_model.PdfPrintOptionsDto
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import org.springframework.http.HttpStatus

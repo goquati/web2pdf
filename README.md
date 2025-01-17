@@ -93,7 +93,7 @@ Content-Type: application/json
 
 ## OpenAPI Specification
 
-The full OpenAPI specification for the `web2pdf` service is available in the repository at [src/main/resources/oas.yaml](./src/main/resources/oas.yaml). This specification provides detailed information about the endpoints, request/response formats, and available parameters.
+The full OpenAPI specification for the `web2pdf` service is available in the repository at [oas.yaml](./oas.yaml). This specification provides detailed information about the endpoints, request/response formats, and available parameters.
 
 ## Contributing
 

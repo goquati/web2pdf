@@ -1,9 +1,9 @@
 package io.github.goquati.service
 
-import de.smart.nexus.orchestrator.oas_model.IsReadyConditionDto
-import de.smart.nexus.orchestrator.oas_model.PdfPrintOptionsDto
-import de.smart.nexus.orchestrator.oas_model.Web2PdfRequestDto
 import io.github.goquati.Web2PdfException
+import io.github.goquati.oas.oas_model.IsReadyConditionDto
+import io.github.goquati.oas.oas_model.PdfPrintOptionsDto
+import io.github.goquati.oas.oas_model.Web2PdfRequestDto
 import io.ktor.http.*
 import kotlinx.coroutines.delay
 import kotlinx.serialization.json.*
@@ -116,7 +116,7 @@ class Web2PdfService(
 
 
     companion object {
-        val Web2PdfRequestDto.host get() = Url(url).host
+        val Web2PdfRequestDto.host get() = Url(data.url).host
 
         private fun String.checkNullableStringValue(name: String) {
             if (this == "null") throw Exception("invalid value 'null' for '$name'")

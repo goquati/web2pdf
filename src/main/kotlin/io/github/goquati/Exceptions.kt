@@ -1,6 +1,6 @@
 package io.github.goquati
 
-import de.smart.nexus.orchestrator.oas_model.ErrorResponseDto
+import io.github.goquati.oas.oas_model.ErrorResponseDto
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 
@@ -10,5 +10,5 @@ class Web2PdfException(
 ) : Exception(msg) {
     private val errorResponse
         get() = ErrorResponseDto(status = status.value(), error = status.name, message = msg)
-    val responseEntity get() = ResponseEntity(errorResponse, status)
+    val responseEntity: ResponseEntity<ErrorResponseDto> get() = ResponseEntity(errorResponse, status)
 }
