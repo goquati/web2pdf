@@ -25,7 +25,7 @@ class {{classname}}(
     {{#allParams}} * @param {{{paramName}}} {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
     {{/allParams}} * @return {{{returnType}}}{{^returnType}}void{{/returnType}}
     */
-    suspend fun {{operationId}}({{#allParams}}{{{paramName}}}: {{{dataType}}}{{^required}}?{{/required}}{{^-last}}, {{/-last}}{{/allParams}}): HttpResponse {
+    internal suspend fun {{operationId}}({{#allParams}}{{{paramName}}}: {{{dataType}}}{{^required}}?{{/required}}{{^-last}}, {{/-last}}{{/allParams}}): HttpResponse {
         val localVariableAuthNames = listOf<String>({{#authMethods}}"{{name}}"{{^-last}}, {{/-last}}{{/authMethods}})
         val localVariableBody = {{#hasBodyParam}}{{#bodyParam}}{{{paramName}}}{{/bodyParam}}{{/hasBodyParam}}
     {{^hasBodyParam}}
