@@ -17,7 +17,6 @@ import org.hildan.chrome.devtools.protocol.ExperimentalChromeApi
 import org.hildan.chrome.devtools.sessions.PageSession
 import org.hildan.chrome.devtools.sessions.goto
 import org.hildan.chrome.devtools.sessions.use
-import org.intellij.lang.annotations.Language
 import org.springframework.stereotype.Service
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
@@ -30,8 +29,6 @@ class Web2PdfService(
         url: Url,
         headers: Map<String, String>? = null,
         cookies: Map<String, String>? = null,
-        @Language("css") customCss: String? = null,
-        condition: IsReadyConditionDto? = null,
         acceptLanguage: String? = null,
         options: PdfPrintOptionsDto?,
     ): ByteArray = runCatching {
@@ -47,10 +44,10 @@ class Web2PdfService(
                 pageSession.goto(url.toString())
             }.getOrElse { error("Navigation to '${url.host}' failed. The full URL is hidden for security reasons. Please ensure the URL is correct and reachable.") }
 
-            if (customCss != null)
-                pageSession.setCustomCss(customCss)
-            if (condition != null)
-                pageSession.runtime.waitForReady(condition)
+            if (options?.customCss != null)
+                pageSession.setCustomCss(options.customCss)
+            if (options?.condition != null)
+                pageSession.runtime.waitForReady(options.condition)
 
             pageSession.page.printToPDF(options?.pdfOptions ?: PrintToPDFRequest())
                 .let { @OptIn(ExperimentalEncodingApi::class) Base64.decode(it.data) }

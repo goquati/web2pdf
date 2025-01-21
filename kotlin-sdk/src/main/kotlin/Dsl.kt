@@ -6,6 +6,7 @@ import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.utils.io.*
 import org.intellij.lang.annotations.Language
+import kotlin.time.Duration
 
 
 fun PdfPrintOptions.setSizeDinA4() {
@@ -18,6 +19,18 @@ fun PdfPrintOptions.setMargin(v: Double) {
     marginBottom = v
     marginLeft = v
     marginRight = v
+}
+
+fun PdfPrintOptions.condition(
+    expression: String,
+    maxTries: Int,
+    delay: Duration,
+) {
+    condition = IsReadyCondition(
+        expression = expression,
+        maxTries = maxTries,
+        delayInMilliSeconds = delay.inWholeMilliseconds.toInt(),
+    )
 }
 
 class PdfGenerationFailed(msg: String) : Exception(msg)
@@ -53,4 +66,4 @@ suspend fun Web2PdfApi.convertWeb2Pdf(
 }
 
 suspend fun Web2PdfApi.createBaseDin5008(data: TemplateInvoiceBaseDin5008): ByteReadChannel =
-     getInvoiceBaseDin5008(data).toPdfChannel()
+    getInvoiceBaseDin5008(data).toPdfChannel()

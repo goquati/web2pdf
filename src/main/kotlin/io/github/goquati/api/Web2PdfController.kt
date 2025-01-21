@@ -38,8 +38,6 @@ class Web2PdfController(
         @Parameter @RequestParam(value = "header", required = false) header: Map<String, String>?,
         @Parameter @RequestParam(value = "cookie", required = false) cookie: Map<String, String>?,
         @Parameter @RequestParam(value = "acceptLanguage", required = false) acceptLanguage: String?,
-        @Parameter @RequestParam(value = "customCss", required = false) customCss: String?,
-        @Parameter condition: IsReadyConditionDto?,
         @Parameter options: PdfPrintOptionsDto?, serverHttpRequest: ServerHttpRequest
     ): ResponseEntity<Resource> = Web2PdfRequestDto(
         data = Web2PdfDto(
@@ -47,8 +45,6 @@ class Web2PdfController(
             headers = serverHttpRequest.extractQueryParams(regexHeaderKey),
             cookies = serverHttpRequest.extractQueryParams(regexCookieKey),
             acceptLanguage = acceptLanguage,
-            customCss = customCss,
-            condition = condition,
         ),
         options = options
     ).toPdfResponse()
@@ -92,8 +88,6 @@ class Web2PdfController(
                 headers = data.headers,
                 cookies = data.cookies,
                 acceptLanguage = data.acceptLanguage,
-                customCss = data.customCss,
-                condition = data.condition,
                 options = options,
             )
         }.let { ResponseEntity.ok(ByteArrayResource(it)) }

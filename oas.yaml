@@ -115,10 +115,6 @@ components:
             my-cookie: my-cookie-value
         acceptLanguage:
           type: string
-        customCss:
-          type: string
-        condition:
-          $ref: '#/components/schemas/IsReadyCondition'
     Html2PdfRequest:
       type: object
       required:
@@ -276,6 +272,10 @@ components:
             Whether or not to embed the document outline into the PDF.
           type: boolean
           example: false
+        customCss:
+          type: string
+        condition:
+          $ref: '#/components/schemas/IsReadyCondition'
     TemplateInvoiceBaseDin5008:
       type: object
       required:
