@@ -79,7 +79,8 @@ class Web2PdfService(
         enable()
         var isLoaded = false
         for (i in 0..<condition.maxTries) {
-            isLoaded = evaluate(expression = condition.expression)
+            val expression = condition.expression.replace("{{i}}", "$i")
+            isLoaded = evaluate(expression = expression)
                 .result.value?.let { it as? JsonPrimitive }?.booleanOrNull
                 ?: error("invalid response of custom JS condition")
             if (isLoaded) break
